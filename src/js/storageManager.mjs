@@ -1,24 +1,9 @@
 /**
- * Handles saving and retrieving data from the browser's LocalStorage.
+ * storageManager.mjs
+ * Handles gear-specific logic using global storage utilities.
+ * Important: Only imports storage functions, does not re-declare them.
  */
-
-/**
- * Retrieves an item from localStorage and parses it from JSON.
- * @param {string} key - The key of the item to retrieve.
- * @returns {Array|Object} - The parsed data or an empty array if not found.
- */
-export function getLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key)) || [];
-}
-
-/**
- * Saves data to localStorage after converting it to a JSON string.
- * @param {string} key - The key under which to save the data.
- * @param {any} data - The data to be stored.
- */
-export function setLocalStorage(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
+import { getLocalStorage, setLocalStorage } from './utils.mjs';
 
 /**
  * [Subtask: Create Function]
@@ -38,7 +23,7 @@ export function addGearToCloset(newItem) {
  */
 export function removeGearFromCloset(itemId) {
     let closet = getLocalStorage('gear-closet');
-    // Filter out the item that matches the ID
+    // Filter out the item that matches the ID to update the list
     closet = closet.filter(item => item.id != itemId);
     setLocalStorage('gear-closet', closet);
 }

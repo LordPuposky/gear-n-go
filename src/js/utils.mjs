@@ -1,6 +1,28 @@
 /**
- * UI helpers for rendering templates.
+ * utils.mjs
+ * Global helper functions for the Gear & Go application.
+ * UI helpers for rendering templates and data persistence.
  */
+
+/**
+ * [Subtask: Storage Utilities]
+ * Retrieves an item from localStorage and parses it from JSON.
+ * @param {string} key - The localStorage key.
+ * @returns {Array|Object} - The parsed data or an empty array if not found.
+ */
+export function getLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key)) || [];
+}
+
+/**
+ * [Subtask: Storage Utilities]
+ * Saves data to localStorage after converting it to a JSON string.
+ * @param {string} key - The key under which to save the data.
+ * @param {any} data - The data to be stored.
+ */
+export function setLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
 
 /**
  * [Subtask: Read/Render Closet]
