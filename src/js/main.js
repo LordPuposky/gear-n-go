@@ -1,9 +1,13 @@
 /**
- * main.js - Entry point for Gear & Go
- * Handles shared components and page-specific routing logic.
+ * Entry point for Gear & Go
+ * Handles shared components, weight logic, and CRUD operations.
  */
-import ExternalServices from './ExternalServices.mjs';
+import { addGearToCloset, getLocalStorage, removeGearFromCloset } from './storageManager.mjs';
+import { gearItemTemplate, renderList } from './utils.mjs';
 
+/**
+ * Loads the shared navigation and footer across all pages.
+ */
 function loadSharedComponents() {
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
@@ -28,21 +32,92 @@ function loadSharedComponents() {
     }
 }
 
-const services = new ExternalServices();
-
 /**
- * Test function to verify API connection.
- * This will be removed once the Closet logic is implemented.
+ * [Subtask: Update Weight Logic - Enhanced]
+ * Calculates weight and updates the UI progress bar, percentage, and capacity label.
  */
-async function testAPI() {
-    try {
-        const tents = await services.getData('tents');
-        console.log('API Connection Successful! Tents found:', tents);
-    } catch (error) {
-        console.error('API Connection Failed:', error);
+function updateWeightStatus() {
+    const closet = getLocalStorage('gear-closet');
+    const totalWeight = closet.reduce((sum, item) => sum + (item.weight || 0), 0);
+
+    // Max capacity limit for a light expedition (5000g)
+    const maxWeight = 5000;
+    const percentage = Math.round(Math.min((totalWeight / maxWeight) * 100, 100));
+
+    // UI Elements
+    const weightProgress = document.getElementById('weight-progress');
+    const statusLabel = document.getElementById('status-label');
+    const totalDisplay = document.getElementById('total-val');
+    const percentDisplay = document.getElementById('weight-percent');
+
+    if (weightProgress) {
+        // Update bar width and percentage text
+        weightProgress.style.width = `${percentage}%`;
+        if (percentDisplay) percentDisplay.innerText = `${percentage}%`;
+
+        // Color and Label logic based on thresholds
+        if (percentage > 80) {
+            weightProgress.style.backgroundColor = 'var(--danger-red)';
+            if (statusLabel) statusLabel.innerText = 'HEAVY';
+        } else if (percentage > 50) {
+            weightProgress.style.backgroundColor = 'var(--warn-yellow)';
+            if (statusLabel) statusLabel.innerText = 'MODERATE';
+        } else {
+            weightProgress.style.backgroundColor = 'var(--safe-green)';
+            if (statusLabel) statusLabel.innerText = 'LIGHT';
+        }
+    }
+
+    // Display the exact total weight
+    if (totalDisplay) {
+        totalDisplay.innerText = totalWeight.toFixed(0);
     }
 }
 
-testAPI();
+// --- INITIALIZATION ---
 
+const gearForm = document.getElementById('gear-form');
+const gearListContainer = document.getElementById('gear-list-container');
+
+// Initial Load: Render list and calculate weight
+if (gearListContainer) {
+    const currentGear = getLocalStorage('gear-closet');
+    renderList(currentGear, gearListContainer, gearItemTemplate);
+    updateWeightStatus();
+}
+
+// Handle Form Submission (Create)
+if (gearForm) {
+    gearForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(gearForm);
+
+        const newItem = {
+            id: Date.now(),
+            name: formData.get('name'),
+            brand: formData.get('brand'),
+            weight: parseFloat(formData.get('weight')) || 0
+        };
+
+        addGearToCloset(newItem);
+        renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
+        updateWeightStatus();
+        gearForm.reset();
+    });
+}
+
+// Handle Item Removal (Delete) via Event Delegation
+if (gearListContainer) {
+    gearListContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-remove')) {
+            const itemId = e.target.getAttribute('data-id');
+
+            removeGearFromCloset(itemId);
+            renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
+            updateWeightStatus();
+        }
+    });
+}
+
+// Load global UI components
 loadSharedComponents();

@@ -13,9 +13,7 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Gear & Go</div>
-            <a href="index.html">← Back to Home</a>
-        </nav>
+            </nav>
     </header>
 
     <main id="closet-view">
@@ -24,9 +22,33 @@
             <div id="status-display">
                 <span id="status-label">LIGHT</span>
                 <div class="progress-bar-bg">
-                    <div id="weight-progress"></div>
+                    <div id="weight-progress">
+                        <span id="weight-percent">0%</span>
+                    </div>
+                </div>
+                <div id="total-trip-weight">
+                    Total: <span id="total-val">0</span> / 5000 g
                 </div>
             </div>
+        </section>
+
+        <section id="add-item-form">
+            <h2>Add New Gear</h2>
+            <form id="gear-form">
+                <div class="form-group">
+                    <label for="gear-name">Item Name:</label>
+                    <input type="text" id="gear-name" name="name" required placeholder="e.g. Lightweight Tarp">
+                </div>
+                <div class="form-group">
+                    <label for="gear-brand">Brand:</label>
+                    <input type="text" id="gear-brand" name="brand" required placeholder="e.g. Custom Made">
+                </div>
+                <div class="form-group">
+                    <label for="gear-weight">Weight (grams):</label>
+                    <input type="number" id="gear-weight" name="weight" step="0.01" required placeholder="0.00">
+                </div>
+                <button type="submit" class="btn">ADD TO CLOSET</button>
+            </form>
         </section>
 
         <section id="inventory">
@@ -38,8 +60,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Gear & Go - Expedition Companion</p>
-    </footer>
+        </footer>
 </body>
 
 </html>

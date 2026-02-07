@@ -1,5 +1,4 @@
 /**
- * ExternalServices.mjs
  * Handles all fetch requests to the external product API,
  * manages error states, and transforms data for internal use.
  */
