@@ -14,25 +14,25 @@
     <header>
         <nav>
             <div class="logo">Gear & Go</div>
+            <a href="index.html">← Back to Home</a>
         </nav>
     </header>
 
-    <main>
-        <section id="hero">
-            <h1>Ready for your next adventure?</h1>
-            <div class="main-actions">
-                <a href="closet.html" class="btn">MY GEAR CLOSET</a>
-                <a href="trip.html" class="btn">NEW TRIP</a>
+    <main id="closet-view">
+        <section id="weight-indicator">
+            <h2>Weight Status</h2>
+            <div id="status-display">
+                <span id="status-label">LIGHT</span>
+                <div class="progress-bar-bg">
+                    <div id="weight-progress"></div>
+                </div>
             </div>
         </section>
 
-        <section id="categories">
-            <h2>Explore Categories</h2>
-            <div class="category-grid">
-                <div class="category-card">Shelter</div>
-                <div class="category-card">Sleep System</div>
-                <div class="category-card">Cooking</div>
-                <div class="category-card">Clothing</div>
+        <section id="inventory">
+            <h1>Gear Closet</h1>
+            <div id="gear-list-container">
+                <p>Loading your gear...</p>
             </div>
         </section>
     </main>

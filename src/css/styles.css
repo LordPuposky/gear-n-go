@@ -1,0 +1,248 @@
+/* Root variables for Brand Identity */
+:root {
+    /* Expedition Palette */
+    --primary-color: #2c3e50;
+    /* Dark Slate for headers */
+    --accent-color: #e67e22;
+    /* Adventure Orange for buttons */
+    --bg-color: #f4f7f6;
+    /* Soft mist gray */
+    --text-color: #333;
+    --white: #ffffff;
+
+    /* Weight Status Colors */
+    --safe-green: #27ae60;
+    --warn-yellow: #f1c40f;
+    --danger-red: #e74c3c;
+
+    /* Typography */
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Header & Nav Basics */
+header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem;
+}
+
+header ul {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+header a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Layout Containers */
+main {
+    padding: 1.5rem;
+    max-width: 800px;
+    /* Limita el ancho para que no se estire demasiado en PC */
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: 2.5rem;
+}
+
+/* Hero Section (Action Buttons) */
+#hero h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.main-actions {
+    display: flex;
+    flex-direction: column;
+    /* Apilado vertical para móvil */
+    gap: 1rem;
+}
+
+/* Category Grid (Mobile-First) */
+.category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Una sola columna en móvil */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.category-card {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--accent-color);
+    /* Detalle de identidad visual */
+}
+
+/* Weight Summary UI */
+#weight-indicator,
+#trip-summary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#status-display {
+    margin-top: 1rem;
+}
+
+#status-label {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Progress Bar for Weight */
+.progress-bar-bg {
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#weight-progress {
+    width: 30%;
+    /* Este valor lo moverá el JS después */
+    height: 100%;
+    background-color: var(--safe-green);
+    transition: width 0.5s ease-in-out;
+}
+
+#total-trip-weight {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 1rem;
+}
+
+/* Interaction Feedback */
+
+/* Efecto Hover para tarjetas y botones */
+.category-card,
+.btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    /* Pequeño salto hacia arriba */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Animación de entrada para nuevos elementos (Pop effect) */
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Esta clase se aplicará dinámicamente con JS a las nuevas tarjetas */
+.animate-pop {
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Botones con identidad de marca */
+.btn {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    /* Estilo redondeado moderno */
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+}
+
+.btn:active {
+    transform: scale(0.95);
+    /* Feedback visual de clic */
+}
+
+/* Navigation Menu Styling */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    /* Logo en naranja para resaltar */
+}
+
+header ul {
+    display: flex;
+    gap: 20px;
+}
+
+header ul li a {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+/* Efecto al pasar el mouse por el menú */
+header ul li a:hover {
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    color: #777;
+    border-top: 1px solid #ddd;
+    margin-top: 3rem;
+}

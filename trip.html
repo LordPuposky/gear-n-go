@@ -14,25 +14,27 @@
     <header>
         <nav>
             <div class="logo">Gear & Go</div>
+            <a href="index.html">← Back to Home</a>
         </nav>
     </header>
 
-    <main>
-        <section id="hero">
-            <h1>Ready for your next adventure?</h1>
-            <div class="main-actions">
-                <a href="closet.html" class="btn">MY GEAR CLOSET</a>
-                <a href="trip.html" class="btn">NEW TRIP</a>
+    <main id="trip-planner">
+        <h1>Trip Planner</h1>
+
+        <section id="trip-checklist">
+            <h2>Expedition Checklist</h2>
+            <div id="checklist-container">
+                <p>Select items from your closet to start planning...</p>
             </div>
         </section>
 
-        <section id="categories">
-            <h2>Explore Categories</h2>
-            <div class="category-grid">
-                <div class="category-card">Shelter</div>
-                <div class="category-card">Sleep System</div>
-                <div class="category-card">Cooking</div>
-                <div class="category-card">Clothing</div>
+        <section id="trip-summary">
+            <h2>Weight Breakdown</h2>
+            <div id="category-chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div id="total-trip-weight">
+                Total Weight: <span id="total-val">0</span> kg
             </div>
         </section>
     </main>
