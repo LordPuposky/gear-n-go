@@ -1,5 +1,5 @@
 /**
- * main.js - Entry point for Gear & Go
+ * Entry point for Gear & Go
  * Handles shared components, weight logic, and CRUD operations.
  */
 import { addGearToCloset, removeGearFromCloset } from './storageManager.mjs';
@@ -28,11 +28,26 @@ function loadSharedComponents() {
     }
 }
 
-// --- WEIGHT LOGIC ---
+// --- WEIGHT CALCULATOR LOGIC (Task 07) ---
+
+/**
+ * [Subtask: Sum Logic]
+ * Process weight totals from the selected gear list.
+ * This function iterates through the gear objects and returns the total in grams.
+ */
+function calculateTotalWeight(gearList) {
+    return gearList.reduce((sum, item) => sum + (Number(item.weight) || 0), 0);
+}
+
+/**
+ * [Subtask: Color-coded indicator]
+ * Updates UI with Green (Success), Amber (Warning), or Red (Danger).
+ * Includes contrast correction for Warning state.
+ */
 function updateWeightStatus() {
-    console.log("Updating weight status...");
+    console.log("Recalculating weight status...");
     const closet = getLocalStorage('gear-closet');
-    const totalWeight = closet.reduce((sum, item) => sum + (Number(item.weight) || 0), 0);
+    const totalWeight = calculateTotalWeight(closet);
 
     const maxWeight = 5000;
     const percentage = Math.round(Math.min((totalWeight / maxWeight) * 100, 100));
@@ -46,15 +61,22 @@ function updateWeightStatus() {
         weightProgress.style.width = `${percentage}%`;
         if (percentDisplay) percentDisplay.innerText = `${percentage}%`;
 
+        // Contrast and Color Logic
         if (percentage > 80) {
+            // DANGER: Red background / White text
             weightProgress.style.backgroundColor = 'var(--danger-red)';
-            if (statusLabel) statusLabel.innerText = 'HEAVY';
+            weightProgress.style.color = 'var(--white)';
+            if (statusLabel) statusLabel.innerText = 'DANGER: HEAVY';
         } else if (percentage > 50) {
+            // WARNING: Yellow background / Dark text for Contrast
             weightProgress.style.backgroundColor = 'var(--warn-yellow)';
-            if (statusLabel) statusLabel.innerText = 'MODERATE';
+            weightProgress.style.color = '#333';
+            if (statusLabel) statusLabel.innerText = 'WARNING: MODERATE';
         } else {
+            // SUCCESS: Green background / White text
             weightProgress.style.backgroundColor = 'var(--safe-green)';
-            if (statusLabel) statusLabel.innerText = 'LIGHT';
+            weightProgress.style.color = 'var(--white)';
+            if (statusLabel) statusLabel.innerText = 'SUCCESS: LIGHT';
         }
     }
 
@@ -63,26 +85,25 @@ function updateWeightStatus() {
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded and parsed");
     loadSharedComponents();
 
     const gearForm = document.getElementById('gear-form');
     const gearListContainer = document.getElementById('gear-list-container');
 
-    // Load existing items
+    // [Subtask: Initial Load Recalculation]
+    // Ensures the list and weight are rendered correctly on startup.
     if (gearListContainer) {
-        const currentGear = getLocalStorage('gear-closet');
-        renderList(currentGear, gearListContainer, gearItemTemplate);
+        renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
         updateWeightStatus();
     }
 
-    // Handle Form Submission
+    /**
+     * [Subtask: Weight Update Event Listeners]
+     * Detects when new items are added to trigger an immediate recalculation.
+     */
     if (gearForm) {
-        console.log("Gear form found and listener attached");
         gearForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // THIS STOP THE PAGE REFRESH
-            console.log("Form submitted!");
-
+            e.preventDefault();
             const formData = new FormData(gearForm);
             const newItem = {
                 id: Date.now(),
@@ -93,23 +114,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             addGearToCloset(newItem);
 
-            // Refresh UI
-            const updatedCloset = getLocalStorage('gear-closet');
-            renderList(updatedCloset, gearListContainer, gearItemTemplate);
+            // Refresh the UI list and update the weight status bar
+            renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
             updateWeightStatus();
 
             gearForm.reset();
         });
-    } else {
-        console.warn("Gear form NOT found. Check your HTML IDs.");
     }
 
-    // Handle Delete
+    /**
+     * [Subtask: Weight Update Event Listeners]
+     * Detects when items are removed to trigger an immediate recalculation.
+     */
     if (gearListContainer) {
         gearListContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('btn-remove')) {
                 const itemId = e.target.getAttribute('data-id');
                 removeGearFromCloset(itemId);
+
+                // Refresh the UI list and update the weight status bar
                 renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
                 updateWeightStatus();
             }
