@@ -35,19 +35,10 @@ function loadSharedComponents() {
 
 // --- WEIGHT CALCULATOR LOGIC (Task 07) ---
 
-/**
- * [Subtask: Sum Logic]
- * Process weight totals from the selected gear list.
- */
 function calculateTotalWeight(gearList) {
     return gearList.reduce((sum, item) => sum + (Number(item.weight) || 0), 0);
 }
 
-/**
- * [Subtask: Color-coded indicator]
- * Updates UI with Green (Success), Amber (Warning), or Red (Danger).
- * Includes contrast correction for Warning state.
- */
 function updateWeightStatus() {
     const closet = getLocalStorage('gear-closet');
     const totalWeight = calculateTotalWeight(closet);
@@ -63,13 +54,11 @@ function updateWeightStatus() {
         weightProgress.style.width = `${percentage}%`;
         if (percentDisplay) percentDisplay.innerText = `${percentage}%`;
 
-        // Threshold-based color logic
         if (percentage > 80) {
             weightProgress.style.backgroundColor = 'var(--danger-red)';
             weightProgress.style.color = 'var(--white)';
             if (statusLabel) statusLabel.innerText = 'DANGER: HEAVY';
         } else if (percentage > 50) {
-            // Text color adjusted to dark for yellow contrast
             weightProgress.style.backgroundColor = 'var(--warn-yellow)';
             weightProgress.style.color = '#333';
             if (statusLabel) statusLabel.innerText = 'WARNING: MODERATE';
@@ -84,23 +73,15 @@ function updateWeightStatus() {
 
 // --- WEATHER API INTEGRATION (Task 08) ---
 
-/**
- * [Subtask: Implement API caching]
- * Checks localStorage for recent weather data (less than 1 hour old) to stay within rate limits.
- */
 function getCachedWeather(location) {
     const cache = JSON.parse(localStorage.getItem(`weather-${location}`));
     if (cache) {
-        const isFresh = (Date.now() - cache.timestamp) < 3600000; // 1 hour expiration
+        const isFresh = (Date.now() - cache.timestamp) < 3600000;
         if (isFresh) return cache.data;
     }
     return null;
 }
 
-/**
- * [Subtask: Map weather conditions to gear suggestions]
- * Analyzes forecast data to recommend essential gear items.
- */
 function displayGearSuggestions(weather) {
     const suggestions = [];
 
@@ -119,19 +100,13 @@ function displayGearSuggestions(weather) {
     }
 }
 
-/**
- * [Subtask: Fetch weather data by destination]
- * Main orchestrator for weather retrieval and caching logic.
- */
 async function initWeather(location) {
     let weatherData = getCachedWeather(location);
 
     if (!weatherData) {
-        console.log("Fetching new weather data from API...");
         weatherData = await services.getWeatherData(location, WEATHER_KEY);
 
         if (weatherData) {
-            // Save to cache for efficiency
             localStorage.setItem(`weather-${location}`, JSON.stringify({
                 timestamp: Date.now(),
                 data: weatherData
@@ -151,17 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const gearForm = document.getElementById('gear-form');
     const gearListContainer = document.getElementById('gear-list-container');
 
-    // Initial load and render
     if (gearListContainer) {
         renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
         updateWeightStatus();
         renderCategoryBreakdown();
     }
 
-    // Trigger weather for a default location or dynamic input (e.g., 'Bogota')
     initWeather('Bogota');
 
-    // [Subtask: Weight Update Event Listeners]
     if (gearForm) {
         gearForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -171,7 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: formData.get('name'),
                 brand: formData.get('brand'),
                 weight: parseFloat(formData.get('weight')) || 0,
-                category: formData.get('category')
+                category: formData.get('category'),
+                packed: false // Initialize packed state
             };
             addGearToCloset(newItem);
             renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
@@ -191,32 +164,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- TASK 11: FIXED CHECKBOX INTERACTION & PERSISTENCE ---
+    if (gearListContainer) {
+        gearListContainer.addEventListener('change', (e) => {
+            if (e.target.classList.contains('trip-checkbox')) {
+                const itemId = e.target.getAttribute('data-id');
+                const isPacked = e.target.checked;
+
+                // 1. Update UI Visually (Fade animation)
+                const card = e.target.closest('.inventory-card');
+                if (card) card.classList.toggle('packed-item', isPacked);
+
+                // 2. Persist state in localStorage
+                const gearList = getLocalStorage('gear-closet');
+                const itemIndex = gearList.findIndex(item => item.id == itemId);
+
+                if (itemIndex !== -1) {
+                    gearList[itemIndex].packed = isPacked;
+                    localStorage.setItem('gear-closet', JSON.stringify(gearList));
+                }
+
+                console.log(`Item ${itemId} persistence updated: ${isPacked}`);
+            }
+        });
+    }
 });
 
-/**
- * [Subtask: Logic to group items by category]
- * Calculates the total weight for each category to be used in visualization.
- */
+// --- DATA VISUALIZATION (Task 10) ---
+
 function getCategoryWeights(gearList) {
     const totals = {};
-
     gearList.forEach(item => {
         const cat = item.category || 'Other';
         const weight = Number(item.weight) || 0;
-
-        if (!totals[cat]) {
-            totals[cat] = 0;
-        }
+        if (!totals[cat]) totals[cat] = 0;
         totals[cat] += weight;
     });
-
-    return totals; // Example: { 'Shelter': 1500, 'Cooking': 500 }
+    return totals;
 }
 
-/**
- * [Subtask: Display category totals]
- * Renders a visual breakdown of weight by category in the UI.
- */
 function renderCategoryBreakdown() {
     const gearList = getLocalStorage('gear-closet');
     const categoryTotals = getCategoryWeights(gearList);
@@ -231,7 +218,6 @@ function renderCategoryBreakdown() {
         const catElement = document.createElement('div');
         catElement.className = 'category-stat animate-pop';
 
-        // Estructura vertical limpia
         catElement.innerHTML = `
             <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
                 <span>${category}</span>
@@ -247,5 +233,13 @@ function renderCategoryBreakdown() {
         `;
         container.appendChild(catElement);
     });
+}
 
+/**
+ * Helper to filter packed items only for specific trip summaries.
+ */
+function calculateTripWeight(gearList) {
+    return gearList
+        .filter(item => item.packed)
+        .reduce((sum, item) => sum + (Number(item.weight) || 0), 0);
 }

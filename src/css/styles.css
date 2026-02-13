@@ -3,13 +3,9 @@
 
 /* Root variables for Brand Identity */
 :root {
-    /* Expedition Palette */
     --primary-color: #2c3e50;
-    /* Dark Slate for headers */
     --accent-color: #e67e22;
-    /* Adventure Orange for buttons */
     --bg-color: #f4f7f6;
-    /* Soft mist gray */
     --text-color: #333;
     --white: #ffffff;
 
@@ -18,11 +14,9 @@
     --warn-yellow: #f1c40f;
     --danger-red: #e74c3c;
 
-    /* Typography [Task 09 - Substep 3: Outdoor Readability] */
+    /* Typography [Task 09] */
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Open Sans', sans-serif;
-    --font-main: 'Open Sans', sans-serif;
-    /* Standardized to Open Sans for better clarity */
 }
 
 /* Base Reset */
@@ -34,16 +28,14 @@
 
 body {
     font-family: var(--font-body);
-    /* */
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
     font-size: 16px;
-    /* Base mobile size (16px - 32px range) */
     -webkit-font-smoothing: antialiased;
 }
 
-/* Header & Nav Basics */
+/* --- HEADER & NAVIGATION --- */
 header {
     background-color: var(--primary-color);
     color: var(--white);
@@ -65,12 +57,10 @@ header .logo {
     color: var(--accent-color);
 }
 
-/* Navigation Menu Styling - [Task 09 - Substep 2: Touch Optimization] */
 header ul {
     display: flex;
     list-style: none;
     gap: 25px;
-    /* Increased spacing for easier tapping */
 }
 
 header ul li a {
@@ -79,23 +69,18 @@ header ul li a {
     font-weight: bold;
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 10px 0;
-    /* Larger hit area */
-    border-bottom: 2px solid transparent;
-    transition: border-bottom 0.3s ease;
     min-height: 48px;
-    /* */
+    /* Touch standard [Task 09] */
     display: flex;
     align-items: center;
+    transition: color 0.3s ease;
 }
 
 header ul li a:hover {
-    border-bottom: 2px solid var(--accent-color);
     color: var(--accent-color);
 }
 
-/* Layout Containers */
+/* --- LAYOUT CONTAINERS --- */
 main {
     padding: 1.5rem;
     max-width: 800px;
@@ -106,56 +91,7 @@ section {
     margin-bottom: 2.5rem;
 }
 
-/* Hero Section (Action Buttons) */
-#hero h1 {
-    font-family: var(--font-heading);
-    /* */
-    font-size: 1.8rem;
-    /* Mobile heading size */
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.main-actions {
-    display: flex;
-    flex-direction: column;
-    /* Vertical stack for mobile by default */
-    gap: 1.2rem;
-}
-
-/* Category Grid (Mobile-First) */
-.category-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    /* Single column for mobile */
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.category-card {
-    background-color: var(--white);
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    font-family: var(--font-heading);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid var(--accent-color);
-    min-height: 60px;
-    /* Enhanced touch target */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-}
-
-.category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* Weight Summary UI */
+/* --- WEIGHT INDICATOR & PROGRESS --- */
 #weight-indicator,
 #trip-summary {
     background-color: var(--primary-color);
@@ -170,16 +106,12 @@ section {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 800;
-    letter-spacing: 2px;
-    display: block;
     margin-bottom: 0.5rem;
 }
 
-/* Progress Bar for Weight */
 .progress-bar-bg {
     background-color: rgba(255, 255, 255, 0.2);
     height: 16px;
-    /* Slightly thicker for better visibility */
     border-radius: 8px;
     overflow: hidden;
 }
@@ -189,19 +121,20 @@ section {
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    min-width: 40px;
     height: 100%;
     background-color: var(--safe-green);
-    transition: width 0.5s ease-in-out, background-color 0.5s ease;
+    transition: width 0.5s ease-in-out;
 }
 
-#weight-percent {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+/* --- TASK 10: CATEGORY BREAKDOWN --- */
+#category-breakdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: left;
 }
 
-/* Form Styling - [Task 09 - Substep 2: Touch Optimization] */
+/* --- FORMS & BUTTONS --- */
 #gear-form {
     background: var(--white);
     padding: 1.5rem;
@@ -211,30 +144,24 @@ section {
     gap: 1.2rem;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     padding: 12px;
-    /* Increased padding for touch */
     font-size: 16px;
-    /* Prevents auto-zoom on mobile devices */
+    /* [Task 09: Prevent zoom] */
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-family: var(--font-body);
 }
 
-/* Buttons */
 .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--accent-color);
     color: var(--white);
     padding: 1rem 2rem;
     border-radius: 50px;
-    text-decoration: none;
     font-weight: bold;
     border: none;
     min-height: 48px;
-    /* Touch standard */
+    /* [Task 09: Touch target] */
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -243,39 +170,70 @@ section {
     transform: scale(0.95);
 }
 
-/* --- RESPONSIVE DESIGN (Task 09 - Substep 1: Media Queries) --- */
-
-@media screen and (min-width: 768px) {
-    body {
-        font-size: 18px;
-        /* Scale up for desktop */
-    }
-
-    /* Transition to two-column desktop layout */
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-    }
-
-    .main-actions {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    #hero h1 {
-        font-size: 2.2rem;
-        /* Heading scales up but stays below 32px limit */
-    }
+/* --- TASK 11: INVENTORY CARDS & CHECKBOXES --- */
+.inventory-card {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-@media screen and (min-width: 1024px) {
+/* [Subtask: Fix Horizontal Alignment] */
+.card-main-content {
+    display: flex;
+    flex-direction: row;
+    /* Aligns checkbox next to text */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.item-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    /* Better readability */
+}
+
+/* [Subtask: Packed Item Animation] */
+.packed-item {
+    opacity: 0.6;
+    background-color: #e8f5e9 !important;
+    /* Soft green success tint */
+    transition: all 0.4s ease;
+}
+
+.trip-checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin: 0;
+    /* Clear previous floats */
+}
+
+.btn-remove {
+    background-color: var(--danger-red);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    width: fit-content;
+}
+
+/* --- RESPONSIVE DESIGN (Task 09) --- */
+@media screen and (min-width: 768px) {
     main {
         max-width: 1000px;
-    }
-
-    #hero h1 {
-        font-size: 2.5rem;
-        /* ~32px professional limit */
     }
 }
 
@@ -284,10 +242,6 @@ section {
     0% {
         transform: scale(0.9);
         opacity: 0;
-    }
-
-    70% {
-        transform: scale(1.05);
     }
 
     100% {
@@ -303,50 +257,6 @@ section {
 footer {
     text-align: center;
     padding: 2.5rem;
-    font-size: 0.85rem;
     color: #777;
-    border-top: 1px solid #ddd;
     margin-top: 3rem;
-}
-
-/* Vertical Layout for Category Breakdown */
-#category-breakdown-container {
-    display: flex;
-    flex-direction: column;
-    /* Force vertical stacking */
-    gap: 1.5rem;
-    text-align: left;
-}
-
-.category-stat {
-    width: 100%;
-    margin-bottom: 0.5rem;
-}
-
-/* Inventory Item Card Styling */
-#gear-list-container div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    background: var(--white);
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
-    border-radius: 8px;
-}
-
-.btn-remove {
-    margin-top: 10px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    width: fit-content;
-}
-
-.btn-remove:hover {
-    background-color: #cc0000;
 }

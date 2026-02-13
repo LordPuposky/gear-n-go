@@ -1,5 +1,4 @@
 /**
- * utils.mjs
  * Global helper functions for the Gear & Go application.
  * UI helpers for rendering templates and data persistence.
  */
@@ -25,17 +24,24 @@ export function setLocalStorage(key, data) {
 }
 
 /**
- * [Subtask: Read/Render Closet]
- * Template for a single gear item card.
+ * [Subtask: Task 11 - Dynamic Checklist Template]
+ * Template for a single gear item card including a trip checkbox.
+ * Includes conditional classes for the fade animation on packed items.
  * @param {Object} item - Gear item data.
  * @returns {string} - HTML string for the card.
  */
 export function gearItemTemplate(item) {
+    // Check if the item was previously marked as packed
+    const isChecked = item.packed ? 'checked' : '';
+
     return `
-        <div class="inventory-card animate-pop">
-            <div class="item-info">
-                <span class="item-name"><strong>${item.name}</strong></span>
-                <span class="item-details">${item.brand} | ${item.weight}g</span>
+        <div class="inventory-card animate-pop ${item.packed ? 'packed-item' : ''}">
+            <div class="card-main-content">
+                <input type="checkbox" class="trip-checkbox" data-id="${item.id}" ${isChecked}>
+                <div class="item-text">
+                    <span class="item-name"><strong>${item.name}</strong></span>
+                    <span class="item-details">${item.brand} | ${item.weight}g</span>
+                </div>
             </div>
             <button class="btn-remove" data-id="${item.id}">Remove Item</button>
         </div>
