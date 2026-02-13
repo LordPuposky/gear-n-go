@@ -32,12 +32,13 @@ export function setLocalStorage(key, data) {
  */
 export function gearItemTemplate(item) {
     return `
-    <div class="category-card animate-pop">
-        <h3>${item.name}</h3>
-        <p><strong>Brand:</strong> ${item.brand}</p>
-        <p><strong>Weight:</strong> ${item.weight} g</p>
-        <button class="btn-remove" data-id="${item.id}">Remove</button>
-    </div>
+        <div class="inventory-card animate-pop">
+            <div class="item-info">
+                <span class="item-name"><strong>${item.name}</strong></span>
+                <span class="item-details">${item.brand} | ${item.weight}g</span>
+            </div>
+            <button class="btn-remove" data-id="${item.id}">Remove Item</button>
+        </div>
     `;
 }
 

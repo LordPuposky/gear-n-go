@@ -1,3 +1,6 @@
+/* Import clear, modern fonts for high readability */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap');
+
 /* Root variables for Brand Identity */
 :root {
     /* Expedition Palette */
@@ -15,8 +18,11 @@
     --warn-yellow: #f1c40f;
     --danger-red: #e74c3c;
 
-    /* Typography */
-    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Typography [Task 09 - Substep 3: Outdoor Readability] */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+    --font-main: 'Open Sans', sans-serif;
+    /* Standardized to Open Sans for better clarity */
 }
 
 /* Base Reset */
@@ -27,10 +33,14 @@
 }
 
 body {
-    font-family: var(--font-main);
+    font-family: var(--font-body);
+    /* */
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    font-size: 16px;
+    /* Base mobile size (16px - 32px range) */
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Header & Nav Basics */
@@ -40,23 +50,55 @@ header {
     padding: 1rem;
 }
 
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+}
+
+/* Navigation Menu Styling - [Task 09 - Substep 2: Touch Optimization] */
 header ul {
     display: flex;
     list-style: none;
-    gap: 15px;
+    gap: 25px;
+    /* Increased spacing for easier tapping */
 }
 
-header a {
+header ul li a {
     color: var(--white);
     text-decoration: none;
     font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    /* Larger hit area */
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+    min-height: 48px;
+    /* */
+    display: flex;
+    align-items: center;
+}
+
+header ul li a:hover {
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--accent-color);
 }
 
 /* Layout Containers */
 main {
     padding: 1.5rem;
     max-width: 800px;
-    /* Limita el ancho para que no se estire demasiado en PC */
     margin: 0 auto;
 }
 
@@ -66,7 +108,10 @@ section {
 
 /* Hero Section (Action Buttons) */
 #hero h1 {
+    font-family: var(--font-heading);
+    /* */
     font-size: 1.8rem;
+    /* Mobile heading size */
     margin-bottom: 1.5rem;
     text-align: center;
 }
@@ -74,15 +119,15 @@ section {
 .main-actions {
     display: flex;
     flex-direction: column;
-    /* Apilado vertical para móvil */
-    gap: 1rem;
+    /* Vertical stack for mobile by default */
+    gap: 1.2rem;
 }
 
 /* Category Grid (Mobile-First) */
 .category-grid {
     display: grid;
     grid-template-columns: 1fr;
-    /* Una sola columna en móvil */
+    /* Single column for mobile */
     gap: 1rem;
     margin-top: 1rem;
 }
@@ -93,9 +138,21 @@ section {
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
+    font-family: var(--font-heading);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-left: 5px solid var(--accent-color);
-    /* Detalle de identidad visual */
+    min-height: 60px;
+    /* Enhanced touch target */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Weight Summary UI */
@@ -109,11 +166,8 @@ section {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-#status-display {
-    margin-top: 1rem;
-}
-
 #status-label {
+    font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: 2px;
@@ -124,42 +178,108 @@ section {
 /* Progress Bar for Weight */
 .progress-bar-bg {
     background-color: rgba(255, 255, 255, 0.2);
-    height: 12px;
-    border-radius: 6px;
+    height: 16px;
+    /* Slightly thicker for better visibility */
+    border-radius: 8px;
     overflow: hidden;
 }
 
 #weight-progress {
-    width: 30%;
-    /* Este valor lo moverá el JS después */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    min-width: 40px;
     height: 100%;
     background-color: var(--safe-green);
-    transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out, background-color 0.5s ease;
 }
 
-#total-trip-weight {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    padding-top: 1rem;
+#weight-percent {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Interaction Feedback */
+/* Form Styling - [Task 09 - Substep 2: Touch Optimization] */
+#gear-form {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    gap: 1.2rem;
+}
 
-/* Efecto Hover para tarjetas y botones */
-.category-card,
+.form-group input {
+    padding: 12px;
+    /* Increased padding for touch */
+    font-size: 16px;
+    /* Prevents auto-zoom on mobile devices */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: var(--font-body);
+}
+
+/* Buttons */
 .btn {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    min-height: 48px;
+    /* Touch standard */
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.category-card:hover {
-    transform: translateY(-5px);
-    /* Pequeño salto hacia arriba */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.btn:active {
+    transform: scale(0.95);
 }
 
-/* Animación de entrada para nuevos elementos (Pop effect) */
+/* --- RESPONSIVE DESIGN (Task 09 - Substep 1: Media Queries) --- */
+
+@media screen and (min-width: 768px) {
+    body {
+        font-size: 18px;
+        /* Scale up for desktop */
+    }
+
+    /* Transition to two-column desktop layout */
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .main-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #hero h1 {
+        font-size: 2.2rem;
+        /* Heading scales up but stays below 32px limit */
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    main {
+        max-width: 1000px;
+    }
+
+    #hero h1 {
+        font-size: 2.5rem;
+        /* ~32px professional limit */
+    }
+}
+
+/* Animations */
 @keyframes popIn {
     0% {
         transform: scale(0.9);
@@ -176,123 +296,57 @@ section {
     }
 }
 
-/* Esta clase se aplicará dinámicamente con JS a las nuevas tarjetas */
 .animate-pop {
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Botones con identidad de marca */
-.btn {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: var(--white);
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    /* Estilo redondeado moderno */
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    border: none;
-}
-
-.btn:active {
-    transform: scale(0.95);
-    /* Feedback visual de clic */
-}
-
-/* Navigation Menu Styling */
-header nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-header .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: var(--accent-color);
-    /* Logo en naranja para resaltar */
-}
-
-header ul {
-    display: flex;
-    gap: 20px;
-}
-
-header ul li a {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 5px 0;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom 0.3s ease;
-}
-
-/* Efecto al pasar el mouse por el menú */
-header ul li a:hover {
-    border-bottom: 2px solid var(--accent-color);
-    color: var(--accent-color);
-}
-
-/* Footer styling */
 footer {
     text-align: center;
-    padding: 2rem;
-    font-size: 0.8rem;
+    padding: 2.5rem;
+    font-size: 0.85rem;
     color: #777;
     border-top: 1px solid #ddd;
     margin-top: 3rem;
 }
 
-#gear-form {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: grid;
-    gap: 1rem;
-}
-
-.form-group {
+/* Vertical Layout for Category Breakdown */
+#category-breakdown-container {
     display: flex;
     flex-direction: column;
+    /* Force vertical stacking */
+    gap: 1.5rem;
     text-align: left;
 }
 
-.form-group label {
-    font-weight: bold;
-    margin-bottom: 0.3rem;
+.category-stat {
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
-.form-group input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Update weight-progress to show the percentage centered */
-#weight-progress {
+/* Inventory Item Card Styling */
+#gear-list-container div {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    min-width: 40px;
-    /* Ensures the percentage is visible even at low values */
-    transition: width 0.5s ease-in-out, background-color 0.5s ease;
-    height: 100%;
+    padding: 1.5rem;
+    background: var(--white);
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    border-radius: 8px;
 }
 
-#weight-percent {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-#total-trip-weight {
+.btn-remove {
     margin-top: 10px;
-    font-weight: bold;
-    color: var(--white);
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    width: fit-content;
+}
+
+.btn-remove:hover {
+    background-color: #cc0000;
 }

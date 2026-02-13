@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gearListContainer) {
         renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
         updateWeightStatus();
+        renderCategoryBreakdown();
     }
 
     // Trigger weather for a default location or dynamic input (e.g., 'Bogota')
@@ -169,11 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: Date.now(),
                 name: formData.get('name'),
                 brand: formData.get('brand'),
-                weight: parseFloat(formData.get('weight')) || 0
+                weight: parseFloat(formData.get('weight')) || 0,
+                category: formData.get('category')
             };
             addGearToCloset(newItem);
             renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
             updateWeightStatus();
+            renderCategoryBreakdown();
             gearForm.reset();
         });
     }
@@ -184,7 +187,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 removeGearFromCloset(e.target.getAttribute('data-id'));
                 renderList(getLocalStorage('gear-closet'), gearListContainer, gearItemTemplate);
                 updateWeightStatus();
+                renderCategoryBreakdown();
             }
         });
     }
 });
+
+/**
+ * [Subtask: Logic to group items by category]
+ * Calculates the total weight for each category to be used in visualization.
+ */
+function getCategoryWeights(gearList) {
+    const totals = {};
+
+    gearList.forEach(item => {
+        const cat = item.category || 'Other';
+        const weight = Number(item.weight) || 0;
+
+        if (!totals[cat]) {
+            totals[cat] = 0;
+        }
+        totals[cat] += weight;
+    });
+
+    return totals; // Example: { 'Shelter': 1500, 'Cooking': 500 }
+}
+
+/**
+ * [Subtask: Display category totals]
+ * Renders a visual breakdown of weight by category in the UI.
+ */
+function renderCategoryBreakdown() {
+    const gearList = getLocalStorage('gear-closet');
+    const categoryTotals = getCategoryWeights(gearList);
+    const container = document.getElementById('category-breakdown-container');
+
+    if (!container) return;
+
+    container.innerHTML = '<h3 style="margin-bottom: 1rem;">Weight by Category</h3>';
+
+    Object.keys(categoryTotals).forEach(category => {
+        const weight = categoryTotals[category];
+        const catElement = document.createElement('div');
+        catElement.className = 'category-stat animate-pop';
+
+        // Estructura vertical limpia
+        catElement.innerHTML = `
+            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px;">
+                <span>${category}</span>
+                <span>${weight}g</span>
+            </div>
+            <div class="progress-bar-bg" style="height: 12px; background: #eee; border-radius: 6px;">
+                <div style="width: ${Math.min((weight / 5000) * 100, 100)}%;
+                            height: 100%;
+                            background: var(--accent-color);
+                            border-radius: 6px;
+                            transition: width 0.5s ease;"></div>
+            </div>
+        `;
+        container.appendChild(catElement);
+    });
+
+}
