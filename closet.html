@@ -12,7 +12,13 @@
 
 <body>
     <header>
-        <nav>
+        <nav aria-label="Main Navigation">
+            <div class="logo" role="img" aria-label="Gear & Go Logo">Gear & Go</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="closet.html">Closet</a></li>
+                <li><a href="trip.html">Trip</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -21,7 +27,8 @@
             <h2>Weight Status</h2>
             <div id="status-display">
                 <span id="status-label">LIGHT</span>
-                <div class="progress-bar-bg">
+                <div class="progress-bar-bg" role="progressbar" aria-labelledby="status-label" aria-valuemin="0"
+                    aria-valuemax="5000" aria-valuenow="0">
                     <div id="weight-progress">
                         <span id="weight-percent">0%</span>
                     </div>
@@ -39,33 +46,35 @@
 
         <section id="add-item-form">
             <h2>Add New Gear</h2>
-            <form id="gear-form">
-                <div class="form-group">
-                    <label for="gear-name">Item Name:</label>
-                    <input type="text" id="gear-name" name="name" required placeholder="e.g. Lightweight Tarp">
-                </div>
-                <div class="form-group">
-                    <label for="gear-brand">Brand:</label>
-                    <input type="text" id="gear-brand" name="brand" required placeholder="e.g. Custom Made">
-                </div>
+            <form id="gear-form" aria-label="Add new gear item form">
+            <div class="form-group">
+                <label for="gear-name">Item Name:</label>
+                <input type="text" id="gear-name" name="name" required aria-required="true"
+                    placeholder="e.g. Lightweight Tarp">
+            </div>
 
-                <div class="form-group">
-                    <label for="gear-category">Category:</label>
-                    <select id="gear-category" name="category" required
-                        style="padding: 12px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit;">
-                        <option value="Shelter">Shelter</option>
-                        <option value="Sleep System">Sleep System</option>
-                        <option value="Cooking">Cooking</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="gear-brand">Brand:</label>
+                <input type="text" id="gear-brand" name="brand" required placeholder="e.g. Custom Made">
+            </div>
 
-                <div class="form-group">
-                    <label for="gear-weight">Weight (grams):</label>
-                    <input type="number" id="gear-weight" name="weight" step="0.01" required placeholder="0.00">
-                </div>
-                <button type="submit" class="btn">ADD TO CLOSET</button>
+            <div class="form-group">
+                <label for="gear-category">Category:</label>
+                <select id="gear-category" name="category" required
+                    style="padding: 12px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit;">
+                    <option value="Shelter">Shelter</option>
+                    <option value="Sleep System">Sleep System</option>
+                    <option value="Cooking">Cooking</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="gear-weight">Weight (grams):</label>
+                <input type="number" id="gear-weight" name="weight" step="0.01" required placeholder="0.00">
+            </div>
+            <button type="submit" class="btn" aria-label="Add this item to your gear closet">ADD TO CLOSET</button>
             </form>
         </section>
 
