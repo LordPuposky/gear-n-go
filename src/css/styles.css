@@ -260,8 +260,19 @@ section {
     }
 }
 
-/* Móviles grandes (480px - 767px) */
+/* Móviles (hasta 767px) */
 @media screen and (max-width: 767px) {
+
+    html,
+    body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    header {
+        padding: 0.8rem 1rem;
+    }
+
     header nav {
         flex-direction: column;
         gap: 0.5rem;
@@ -271,70 +282,83 @@ section {
     header ul {
         justify-content: center;
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 12px;
     }
 
     main {
-        padding: 1rem;
+        padding: 0.8rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #hero {
+        padding: 2rem 1rem;
+        border-radius: 12px;
+        min-height: 160px;
+        background-position: center;
+    }
+
+    #hero h1 {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .main-actions {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .main-actions .btn {
+        width: 90%;
+        max-width: 320px;
+        text-align: center;
+    }
+
+    .inventory-card {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        padding: 0;
+    }
+
+    .category-card {
+        padding: 1.2rem 0.5rem;
+        font-size: 0.9rem;
     }
 
     #weight-indicator,
     #trip-summary {
         padding: 1.2rem;
-    }
-
-    .inventory-card {
-        max-width: 100%;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 0.8rem;
-    }
-}
-
-/* Móviles pequeños (hasta 480px) */
-@media screen and (max-width: 480px) {
-    #hero {
-        padding: 2rem 0.8rem;
-        border-radius: 12px;
-    }
-
-    #hero h1 {
-        font-size: 1.5rem;
-    }
-
-    .main-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .main-actions .btn {
-        width: 100%;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .card-main-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        min-height: auto;
     }
 
     #gear-form {
         padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .btn {
+    .form-group input,
+    .form-group select {
         width: 100%;
-        text-align: center;
+        box-sizing: border-box;
+    }
+
+    #gear-form .btn {
+        width: 100%;
     }
 
     footer {
         padding: 0.8rem;
         font-size: 0.85rem;
+        margin-top: 1.5rem;
     }
 }
 
