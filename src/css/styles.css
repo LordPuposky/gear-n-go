@@ -171,6 +171,8 @@ section {
 }
 
 /* --- TASK 11: INVENTORY CARDS & CHECKBOXES --- */
+/* --- TASK 13: ANIMATION REFINEMENT --- */
+/* Base card state for smooth multi-property transitions [Subtask 01] */
 .inventory-card {
     max-width: 400px;
     margin: 10px auto;
@@ -182,6 +184,11 @@ section {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    /* transition refinement: added transform for the scale effect */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s ease,
+        background-color 0.4s ease,
+        box-shadow 0.3s ease;
 }
 
 /* [Subtask: Fix Horizontal Alignment] */
@@ -204,11 +211,14 @@ section {
 }
 
 /* [Subtask: Packed Item Animation] */
+/* Refined packed state with scale and soft green tint [Subtask 01] */
 .packed-item {
-    opacity: 0.6;
-    background-color: #e8f5e9 !important;
-    /* Soft green success tint */
-    transition: all 0.4s ease;
+    opacity: 0.5 !important;
+    background-color: #f0fdf4 !important;
+    /* Soft success tint */
+    transform: scale(0.96) !important;
+    /* Subtle shrinkage effect */
+    box-shadow: none !important;
 }
 
 .trip-checkbox {
