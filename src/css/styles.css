@@ -187,7 +187,8 @@ section {
 
 /* --- TASK 11 & 13: INVENTORY CARDS --- */
 .inventory-card {
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px;
     margin: 10px auto;
     padding: 1.5rem;
     background: var(--white);
@@ -250,6 +251,24 @@ section {
 @media screen and (min-width: 768px) {
     main {
         max-width: 1000px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #hero h1 {
+        font-size: 1.5rem;
+        /* Smaller text for mobile hero */
+    }
+
+    .main-actions {
+        flex-direction: column;
+        /* Stack buttons vertically on very small screens */
+        width: 100%;
+    }
+
+    .main-actions .btn {
+        width: 100%;
+        /* Full width buttons for easier tapping */
     }
 }
 
@@ -322,14 +341,15 @@ footer {
     justify-content: center;
 }
 
-/* --- CATEGORY GRID --- */
+/* --- CATEGORY GRID REFINEMENT --- */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
+    padding: 0 10px;
 }
 
 .category-card {
