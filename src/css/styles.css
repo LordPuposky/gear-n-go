@@ -248,27 +248,93 @@ section {
 }
 
 /* --- RESPONSIVE DESIGN (Task 09) --- */
+
+/* Tablets y pantallas medianas */
 @media screen and (min-width: 768px) {
     main {
         max-width: 1000px;
     }
+
+    .inventory-card {
+        max-width: 600px;
+    }
 }
 
+/* Móviles grandes (480px - 767px) */
+@media screen and (max-width: 767px) {
+    header nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    header ul {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    #weight-indicator,
+    #trip-summary {
+        padding: 1.2rem;
+    }
+
+    .inventory-card {
+        max-width: 100%;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.8rem;
+    }
+}
+
+/* Móviles pequeños (hasta 480px) */
 @media screen and (max-width: 480px) {
+    #hero {
+        padding: 2rem 0.8rem;
+        border-radius: 12px;
+    }
+
     #hero h1 {
         font-size: 1.5rem;
-        /* Smaller text for mobile hero */
     }
 
     .main-actions {
         flex-direction: column;
-        /* Stack buttons vertically on very small screens */
         width: 100%;
     }
 
     .main-actions .btn {
         width: 100%;
-        /* Full width buttons for easier tapping */
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-main-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    #gear-form {
+        padding: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    footer {
+        padding: 0.8rem;
+        font-size: 0.85rem;
     }
 }
 
