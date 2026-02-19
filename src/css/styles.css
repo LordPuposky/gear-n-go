@@ -280,7 +280,7 @@ footer {
     background-color: var(--primary-color);
     text-align: center;
     padding: 1rem;
-    color: #777;
+    color: #ffffff;
     margin-top: 3rem;
     width: 100%;
 }
@@ -325,9 +325,11 @@ footer {
 /* --- CATEGORY GRID --- */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
-    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .category-card {
