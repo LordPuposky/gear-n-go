@@ -265,15 +265,22 @@ footer {
 #hero {
     text-align: center;
     padding: 3rem 1rem;
-    background: linear-gradient(rgba(44, 62, 80, 0.05), rgba(44, 62, 80, 0.02));
+    background-image: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=1473');
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
     border-radius: 20px;
+    color: white;
 }
 
 #hero h1 {
     font-family: var(--font-heading);
     font-size: 2.2rem;
     margin-bottom: 2rem;
-    color: var(--primary-color);
+    color: white;
+    /* Cambia el color del texto a blanco para que contraste */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Añade sombra para mejorar legibilidad */
 }
 
 .main-actions {
@@ -311,4 +318,22 @@ footer {
 
 .category-card:hover {
     transform: translateY(-5px);
+}
+
+/* --- OFFLINE NOTIFICATION --- */
+#offline-notice {
+    display: none;
+    background-color: var(--warn-yellow);
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid #d4ac0d;
+}
+
+body.is-offline #offline-notice {
+    display: block;
 }

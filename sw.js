@@ -1,7 +1,9 @@
-// Name of the cache for this version
-const CACHE_NAME = 'gear-n-go-v1';
+const CACHE_NAME = 'gear-n-go-v3';
 
-// List of assets to cache based on your current structure
+/**
+ * List of core assets to cache for offline functionality.
+ * These paths are relative to the root directory.
+ */
 const assetsToCache = [
     './',
     './index.html',
@@ -14,45 +16,41 @@ const assetsToCache = [
     './src/js/utils.mjs'
 ];
 
-// Installation: Cache static files
+// Install event: Open cache and add all defined assets
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            console.log('SW: Caching static assets');
-            return cache.addAll(assetsToCache);
-        })
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(assetsToCache))
     );
+    self.skipWaiting();
 });
 
-// Activation: Clean up old caches if they exist
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== CACHE_NAME) {
-                        console.log('SW: Deleting old cache');
-                        return caches.delete(cache);
-                    }
-                })
+                cacheNames
+                    .filter((name) => name !== CACHE_NAME)
+                    .map((name) => caches.delete(name))
             );
         })
     );
+    self.clients.claim();
 });
 
-// Response strategy: Network First with cache fallback
-// Chosen to ensure weather and gear data are up-to-date if online
+// Fetch event: Serve from cache if available, else fetch from network
 self.addEventListener('fetch', (event) => {
+    const url = new URL(event.request.url);
+    if (url.hostname === 'localhost') return;
+
     event.respondWith(
-        fetch(event.request)
-            .then((response) => {
-                // If network works, clone and save to cache
-                const resClone = response.clone();
-                caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, resClone);
-                });
-                return response;
-            })
-            .catch(() => caches.match(event.request)) // If network fails, look in cache
+        caches.match(event.request).then((cachedResponse) => {
+            // Return cached response if found, otherwise try network
+            return cachedResponse || fetch(event.request).catch(() => {
+                // Fallback to index.html for navigation requests when offline
+                if (event.request.mode === 'navigate') {
+                    return caches.match('./index.html');
+                }
+            });
+        })
     );
 });
