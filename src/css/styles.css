@@ -40,6 +40,8 @@ header {
     background-color: var(--primary-color);
     color: var(--white);
     padding: 1rem;
+    /* [Task 13] Prevent header from causing layout shift on load */
+    min-height: 64px;
 }
 
 header nav {
@@ -70,7 +72,6 @@ header ul li a {
     font-size: 0.9rem;
     text-transform: uppercase;
     min-height: 48px;
-    /* Touch standard [Task 09] */
     display: flex;
     align-items: center;
     transition: color 0.3s ease;
@@ -100,6 +101,8 @@ section {
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* [Task 13] Prevent layout shift: reserve height while loading */
+    min-height: 120px;
 }
 
 #status-label {
@@ -114,6 +117,8 @@ section {
     height: 16px;
     border-radius: 8px;
     overflow: hidden;
+    /* [Task 13] Reserve height to prevent layout shift */
+    min-height: 16px;
 }
 
 #weight-progress {
@@ -122,8 +127,11 @@ section {
     justify-content: center;
     color: white;
     height: 100%;
+    width: 0%;
     background-color: var(--safe-green);
-    transition: width 0.5s ease-in-out;
+    /* [Task 13] Smooth transition for both width AND color change */
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.5s ease-in-out;
 }
 
 /* --- TASK 10: CATEGORY BREAKDOWN --- */
@@ -132,6 +140,8 @@ section {
     flex-direction: column;
     gap: 1.5rem;
     text-align: left;
+    /* [Task 13] Reserve min-height to avoid layout shift while calculating */
+    min-height: 40px;
 }
 
 /* --- FORMS & BUTTONS --- */
@@ -148,9 +158,9 @@ section {
 .form-group select {
     padding: 12px;
     font-size: 16px;
-    /* [Task 09: Prevent zoom] */
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 100%;
 }
 
 .btn {
@@ -161,7 +171,6 @@ section {
     font-weight: bold;
     border: none;
     min-height: 48px;
-    /* [Task 09: Touch target] */
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -170,9 +179,7 @@ section {
     transform: scale(0.95);
 }
 
-/* --- TASK 11: INVENTORY CARDS & CHECKBOXES --- */
-/* --- TASK 13: ANIMATION REFINEMENT --- */
-/* Base card state for smooth multi-property transitions [Subtask 01] */
+/* --- TASK 11 & 13: INVENTORY CARDS --- */
 .inventory-card {
     max-width: 400px;
     margin: 10px auto;
@@ -184,18 +191,16 @@ section {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    /* transition refinement: added transform for the scale effect */
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    /* [Task 13] Smooth transition for all animated properties */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.4s ease,
         background-color 0.4s ease,
         box-shadow 0.3s ease;
 }
 
-/* [Subtask: Fix Horizontal Alignment] */
 .card-main-content {
     display: flex;
     flex-direction: row;
-    /* Aligns checkbox next to text */
     align-items: center;
     justify-content: center;
     gap: 15px;
@@ -207,18 +212,14 @@ section {
     display: flex;
     flex-direction: column;
     text-align: left;
-    /* Better readability */
 }
 
-/* [Subtask: Packed Item Animation] */
-/* Refined packed state with scale and soft green tint [Subtask 01] */
+/* [Task 13] Refined packed state animation */
 .packed-item {
-    opacity: 0.5 !important;
+    opacity: 0.5;
     background-color: #f0fdf4 !important;
-    /* Soft success tint */
-    transform: scale(0.96) !important;
-    /* Subtle shrinkage effect */
-    box-shadow: none !important;
+    transform: scale(0.98);
+    box-shadow: none;
 }
 
 .trip-checkbox {
@@ -226,7 +227,6 @@ section {
     height: 24px;
     cursor: pointer;
     margin: 0;
-    /* Clear previous floats */
 }
 
 .btn-remove {
@@ -247,7 +247,7 @@ section {
     }
 }
 
-/* Animations */
+/* --- ANIMATIONS --- */
 @keyframes popIn {
     0% {
         transform: scale(0.9);
@@ -264,6 +264,12 @@ section {
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* [Task 13] Prevent sections from jumping during load */
+.animate-pop {
+    /* Will-change hints the browser to pre-optimize this element */
+    will-change: transform, opacity;
+}
+
 footer {
     text-align: center;
     padding: 2.5rem;
@@ -275,12 +281,15 @@ footer {
 #hero {
     text-align: center;
     padding: 3rem 1rem;
-    background-image: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=1473');
+    background-image: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.7)),
+        url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=1473');
     background-size: cover;
     background-position: center 30%;
     background-repeat: no-repeat;
     border-radius: 20px;
     color: white;
+    /* [Task 13] Reserve height to prevent layout shift while image loads */
+    min-height: 200px;
 }
 
 #hero h1 {
@@ -288,9 +297,7 @@ footer {
     font-size: 2.2rem;
     margin-bottom: 2rem;
     color: white;
-    /* Cambia el color del texto a blanco para que contraste */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    /* Añade sombra para mejorar legibilidad */
 }
 
 .main-actions {

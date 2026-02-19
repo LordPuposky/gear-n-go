@@ -384,3 +384,31 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.error('SW Registration failed:', err));
     });
 }
+
+// --- TASK 13: LOGIC FOR TRIP.HTML ---
+
+const cards = gearListContainer.querySelectorAll('.inventory-card');
+cards.forEach(card => {
+    const cb = card.querySelector('.trip-checkbox');
+    if (cb && cb.checked) card.classList.add('packed-item');
+});
+
+// 2. Listen for clicks on checkboxes to trigger the animation
+gearListContainer.addEventListener('change', (e) => {
+    if (e.target.classList.contains('trip-checkbox')) {
+        const card = e.target.closest('.inventory-card');
+        const isPacked = e.target.checked;
+        const itemId = e.target.dataset.id;
+
+        // Activates the shrinking and opacity animation from CSS
+        if (card) card.classList.toggle('packed-item', isPacked);
+
+        // Saves the state in the "brain" (LocalStorage)
+        const gearList = getLocalStorage('gear-closet');
+        const item = gearList.find(i => i.id == itemId);
+        if (item) {
+            item.packed = isPacked;
+            localStorage.setItem('gear-closet', JSON.stringify(gearList));
+        }
+    }
+});
