@@ -27,12 +27,16 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: var(--font-body);
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    margin: 0;
 }
 
 /* --- HEADER & NAVIGATION --- */
@@ -86,6 +90,7 @@ main {
     padding: 1.5rem;
     max-width: 800px;
     margin: 0 auto;
+    flex: 1;
 }
 
 section {
@@ -272,10 +277,12 @@ section {
 }
 
 footer {
+    background-color: var(--primary-color);
     text-align: center;
-    padding: 2.5rem;
+    padding: 1rem;
     color: #777;
     margin-top: 3rem;
+    width: 100%;
 }
 
 /* --- HERO SECTION --- */
