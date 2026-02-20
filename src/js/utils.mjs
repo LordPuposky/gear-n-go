@@ -34,23 +34,26 @@ export function gearItemTemplate(item) {
     const isChecked = item.packed ? 'checked' : '';
 
     return `
-        <div class="inventory-card animate-pop ${item.packed ? 'packed-item' : ''}">
-            <div class="card-main-content">
-                <input type="checkbox"
-                    class="trip-checkbox"
-                    data-id="${item.id}"
-                    ${isChecked}
-                    aria-label="Mark ${item.name} as packed">
-                <div class="item-text">
-                    <span class="item-name"><strong>${item.name}</strong></span>
-                    <span class="item-details">${item.brand} | ${item.weight}g</span>
-                </div>
+    <div class="inventory-card animate-pop ${item.packed ? 'packed-item' : ''}">
+        <div class="card-main-content">
+            <input type="checkbox"
+                class="trip-checkbox"
+                data-id="${item.id}"
+                ${item.packed ? 'checked' : ''}
+                aria-label="Mark ${item.name} as packed">
+            <div class="item-text">
+                <span class="item-name"><strong>${item.name}</strong></span>
+                <span class="item-details">${item.brand} | ${item.weight}g</span>
+                <span class="item-meta" style="font-size: 0.75rem; color: var(--accent-color);">
+                    Status: ${item.condition} | Added: ${item.addedAt}
+                </span>
             </div>
-            <button class="btn-remove"
-                    data-id="${item.id}"
-                    aria-label="Remove ${item.name} from list">Remove Item</button>
         </div>
-    `;
+        <button class="btn-remove"
+                data-id="${item.id}"
+                aria-label="Remove ${item.name} from list">Remove Item</button>
+    </div>
+`;
 }
 
 /**

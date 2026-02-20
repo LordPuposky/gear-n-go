@@ -154,7 +154,9 @@ function initGearForm() {
             brand,
             category,
             weight,
-            packed: false
+            packed: false,
+            condition: "Good",
+            addedAt: new Date().toLocaleDateString()
         };
 
         addGearToCloset(newItem);
@@ -201,14 +203,15 @@ function initGearListEvents() {
 
 function renderTripChecklist() {
     const gearList = getLocalStorage('gear-closet');
-    const packedItems = gearList.filter(item => item.packed);
     const container = document.getElementById('checklist-container');
     if (!container) return;
 
-    if (packedItems.length === 0) {
+    if (gearList.length === 0) {
         container.innerHTML = '<p>Select items from your closet to start planning...</p>';
         return;
     }
+
+    renderList(gearList, container, gearItemTemplate);
 
     // Agrupar por categoría
     const categories = {};

@@ -488,3 +488,18 @@ header ul li a:focus-visible,
 .btn-remove:focus-visible {
     border-radius: 4px;
 }
+
+.item-meta {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    margin-top: 4px;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
