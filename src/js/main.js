@@ -211,7 +211,13 @@ function renderTripChecklist() {
         return;
     }
 
-    renderList(gearList, container, gearItemTemplate);
+    // CORRECCIÓN: Definimos packedItems filtrando la gearList
+    const packedItems = gearList.filter(item => item.packed);
+
+    if (packedItems.length === 0) {
+        container.innerHTML = '<p>Select items from your closet to start planning...</p>';
+        return;
+    }
 
     // Agrupar por categoría
     const categories = {};
